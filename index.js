@@ -171,9 +171,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div id="user-dropdown-content" class="user-dropdown-content">
                   <a href="#" class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-                      <path d="M12 20v-6M9 17l3 3 3-3M4 4h16M4 8h16M4 12h16"></path>
+                      <rect x="3" y="3" width="7" height="7"></rect>
+                      <rect x="14" y="3" width="7" height="7"></rect>
+                      <rect x="14" y="14" width="7" height="7"></rect>
+                      <rect x="3" y="14" width="7" height="7"></rect>
                     </svg>
-                    Reports
+                    Dashboard
                   </a>
                   <a href="#" class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
@@ -189,12 +192,11 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
           
           <div class="p-6">
-            <div class="flex justify-between items-center mb-3">
-              <button id="prev-week-button" class="text-slate-600 flex items-center hover:bg-slate-100 p-2 rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+            <div class="flex justify-center items-center gap-3 mb-3">
+              <button id="prev-week-button" class="text-slate-600 hover:bg-slate-100 p-2 rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6"/>
                 </svg>
-                <span>Prev</span>
               </button>
               
               <div class="flex items-center">
@@ -204,12 +206,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"></path>
                   </svg>
                 </button>
-                <span id="week-display" class="text-lg font-semibold text-slate-800"></span>
+                <span id="week-display" class="text-lg font-semibold text-slate-800 text-center max-w-full break-words px-2"></span>
               </div>
               
-              <button id="next-week-button" class="text-slate-600 flex items-center hover:bg-slate-100 p-2 rounded">
-                <span>Next</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
+              <button id="next-week-button" class="text-slate-600 hover:bg-slate-100 p-2 rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m9 18 6-6-6-6"/>
                 </svg>
               </button>
@@ -228,18 +229,50 @@ document.addEventListener('DOMContentLoaded', function() {
               </button>
             </div>
             
-            <div class="mt-6 pt-4 border-t flex justify-center items-center text-lg font-medium">
-              <div class="flex items-center font-medium">
+            <div class="mt-6 pt-4 border-t flex flex-wrap justify-between items-center text-lg font-medium px-6">
+              <div class="flex-1 min-w-0 hidden sm:block"></div>
+              
+              <div class="flex-1 flex justify-center mt-4 sm:mt-0 min-w-[120px]">
+                <button id="submit-button" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-2 rounded">
+                  Submit
+                </button>
+              </div>
+              
+              <div class="flex-1 flex justify-end items-center font-medium mt-4 sm:mt-0 min-w-[100px]">
                 <span class="mr-2">Total:</span>
                 <span id="total-percentage" class=""></span>
               </div>
             </div>
+            
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+              <div class="w-full flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <div class="flex items-center">
+                  <span class="text-sm font-medium text-gray-700 mr-3">Date Range:</span>
+                </div>
+                <div class="flex flex-wrap gap-2 items-center">
+                  <select id="date-range-preset" class="border rounded px-3 py-2 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300" aria-label="Select date range">
+                    <option value="1month">Last Month</option>
+                    <option value="3months">Last 3 Months</option>
+                    <option value="6months">Last 6 Months</option>
+                    <option value="1year" selected>Last Year</option>
+                    <option value="custom">Custom Range</option>
+                  </select>
+                  
+                  <div id="custom-date-container" class="hidden flex-wrap gap-2 items-center">
+                    <input type="date" id="start-date" class="border rounded px-2 py-1 text-sm" aria-label="Start date">
+                    <span class="text-gray-500">to</span>
+                    <input type="date" id="end-date" class="border rounded px-2 py-1 text-sm" aria-label="End date">
+                    <button id="apply-date-filter" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm whitespace-nowrap">
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           
-          <div class="border-t p-4 pb-6 bg-slate-50 flex justify-center items-center h-20">
-            <button id="submit-button" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-2 rounded">
-              Submit
-            </button>
+          <div class="border-t p-4 pb-6 bg-slate-50 flex justify-center items-center h-8">
+            <!-- Footer space -->
           </div>
         </div>
       </div>
@@ -284,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
           event.preventDefault();
           const action = this.textContent.trim();
           
-          if (action === 'Reports') {
+          if (action === 'Dashboard') {
             showReportsPage();
           } else {
             alert(`You clicked: ${action}`);
@@ -349,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Project select column
       const selectDiv = document.createElement('div');
-      selectDiv.className = 'col-span-10';
+      selectDiv.className = 'col-span-9';
       
       const selectContainer = document.createElement('div');
       selectContainer.className = 'relative';
@@ -469,11 +502,11 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Remove button column
       const removeDiv = document.createElement('div');
-      removeDiv.className = 'col-span-1 flex justify-end';
+      removeDiv.className = 'col-span-2 flex items-center justify-center';
       
       if (entries.length > 1) {
         const removeButton = document.createElement('button');
-        removeButton.className = 'h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md flex items-center justify-center ml-2';
+        removeButton.className = 'h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md flex items-center justify-center';
         removeButton.innerHTML = `
           <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         `;
@@ -949,20 +982,28 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             
             <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-              <div class="flex items-center space-x-2">
-                <label for="start-date" class="text-sm text-gray-700">Start:</label>
-                <input type="date" id="start-date" class="border rounded px-2 py-1">
-                <label for="end-date" class="text-sm text-gray-700">End:</label>
-                <input type="date" id="end-date" class="border rounded px-2 py-1">
-                <button id="apply-date-filter" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
-                  Apply
-                </button>
-              </div>
-              
-              <div>
-                <button id="refresh-reports" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                  Refresh Data
-                </button>
+              <div class="w-full flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <div class="flex items-center">
+                  <span class="text-sm font-medium text-gray-700 mr-3">Date Range:</span>
+                </div>
+                <div class="flex flex-wrap gap-2 items-center">
+                  <select id="date-range-preset" class="border rounded px-3 py-2 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300" aria-label="Select date range">
+                    <option value="1month">Last Month</option>
+                    <option value="3months">Last 3 Months</option>
+                    <option value="6months">Last 6 Months</option>
+                    <option value="1year" selected>Last Year</option>
+                    <option value="custom">Custom Range</option>
+                  </select>
+                  
+                  <div id="custom-date-container" class="hidden flex-wrap gap-2 items-center">
+                    <input type="date" id="start-date" class="border rounded px-2 py-1 text-sm" aria-label="Start date">
+                    <span class="text-gray-500">to</span>
+                    <input type="date" id="end-date" class="border rounded px-2 py-1 text-sm" aria-label="End date">
+                    <button id="apply-date-filter" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm whitespace-nowrap">
+                      Apply
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -990,27 +1031,56 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('weekly-tracker').classList.remove('hidden');
     });
     
-    // Add event listener for the refresh button
-    document.getElementById('refresh-reports').addEventListener('click', function() {
-      // Clear existing charts
-      const timeSeriesChart = Chart.getChart('time-series-chart');
-      const pieChart = Chart.getChart('pie-chart');
+    // Add event listener for the date range selector
+    document.getElementById('date-range-preset').addEventListener('change', function() {
+      const customDateContainer = document.getElementById('custom-date-container');
       
-      if (timeSeriesChart) timeSeriesChart.destroy();
-      if (pieChart) pieChart.destroy();
-      
-      // Regenerate the reports
-      generateReports();
+      if (this.value === 'custom') {
+        customDateContainer.classList.remove('hidden');
+        customDateContainer.classList.add('flex');
+      } else {
+        customDateContainer.classList.add('hidden');
+        customDateContainer.classList.remove('flex');
+        
+        // Apply the preset filter
+        applyDatePreset(this.value);
+      }
     });
     
-    // Generate the reports data
-    generateReports();
+    // Add event listener for the apply button
+    document.getElementById('apply-date-filter').addEventListener('click', function() {
+      const startDate = document.getElementById('start-date').value;
+      const endDate = document.getElementById('end-date').value;
+      
+      if (startDate && endDate) {
+        applyCustomDateFilter(startDate, endDate);
+      }
+    });
+    
+    // Set default date ranges
+    const today = new Date();
+    const oneYearAgo = new Date(today);
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
+    
+    document.getElementById('start-date').value = formatDateForInput(oneYearAgo);
+    document.getElementById('end-date').value = formatDateForInput(today);
+    
+    // Generate the reports data with default 1 year range
+    generateReports(oneYearAgo, today);
+  }
+  
+  // Helper function to format date for input field
+  function formatDateForInput(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   // Function to generate the report charts
-  function generateReports() {
+  function generateReports(startDate, endDate) {
     // Process data for the charts
-    const projectData = processProjectData();
+    const projectData = processProjectData(startDate, endDate);
     
     // Show warning if using sample data
     const noDataMessage = document.getElementById('no-data-message');
@@ -1028,10 +1098,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Process project data for the charts
-  function processProjectData() {
+  function processProjectData(startDate = null, endDate = null) {
     // Gather all submissions
-    const submissionWeeks = Object.keys(previousSubmissions);
+    let submissionWeeks = Object.keys(previousSubmissions);
     console.log("Found submission weeks:", submissionWeeks);
+    
+    // Apply date filtering if provided
+    if (startDate && endDate) {
+      submissionWeeks = submissionWeeks.filter(weekStr => {
+        const weekDate = getWeekStartDate(weekStr);
+        return weekDate >= startDate && weekDate <= endDate;
+      });
+      console.log("Filtered weeks by date range:", submissionWeeks);
+    }
     
     // Time series data structure
     const timeData = {
@@ -1475,5 +1554,73 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     });
+  }
+
+  // Function to apply preset date filters
+  function applyDatePreset(preset) {
+    let startDate, endDate;
+    const today = new Date();
+    
+    switch(preset) {
+      case '1month':
+        // Last month
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 1);
+        endDate = today;
+        break;
+      case '3months':
+        // Last 3 months
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 3);
+        endDate = today;
+        break;
+      case '6months':
+        // Last 6 months
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 6);
+        endDate = today;
+        break;
+      case '1year':
+        // Last year
+        startDate = new Date(today);
+        startDate.setFullYear(today.getFullYear() - 1);
+        endDate = today;
+        break;
+      default:
+        // Reset filters
+        startDate = null;
+        endDate = null;
+    }
+    
+    // Update input fields for UI consistency
+    if (startDate && endDate) {
+      document.getElementById('start-date').value = formatDateForInput(startDate);
+      document.getElementById('end-date').value = formatDateForInput(endDate);
+    }
+    
+    // Filter and regenerate charts
+    filterSubmissionsByDate(startDate, endDate);
+  }
+  
+  // Function to apply custom date filter
+  function applyCustomDateFilter(startDateStr, endDateStr) {
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+    endDate.setHours(23, 59, 59, 999); // Set to end of day
+    
+    filterSubmissionsByDate(startDate, endDate);
+  }
+  
+  // Function to filter submissions by date
+  function filterSubmissionsByDate(startDate, endDate) {
+    // Clear existing charts
+    const timeSeriesChart = Chart.getChart('time-series-chart');
+    const pieChart = Chart.getChart('pie-chart');
+    
+    if (timeSeriesChart) timeSeriesChart.destroy();
+    if (pieChart) pieChart.destroy();
+    
+    // Regenerate the reports with date filter
+    generateReports(startDate, endDate);
   }
 });
