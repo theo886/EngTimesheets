@@ -301,6 +301,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
     }
+
+    // Add event listener for repositioning open dropdowns on resize
+    window.addEventListener('resize', () => {
+      const openDropdown = document.querySelector('[data-dropdown]:not(.hidden)');
+      if (openDropdown) {
+        const id = openDropdown.dataset.dropdown;
+        document.dispatchEvent(new CustomEvent('dropdown-toggled', { 
+          detail: { id: id }
+        }));
+      }
+    });
   }
 
   function render() {
@@ -351,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       const entryDiv = document.createElement('div');
-      entryDiv.className = 'grid grid-cols-12 gap-x-2 sm:gap-x-3 items-center min-w-0 overflow-hidden';
+      entryDiv.className = 'grid grid-cols-12 gap-x-2 sm:gap-x-3 items-center min-w-0';
       entryDiv.dataset.id = entry.id;
       
       // Project select column
@@ -359,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
       selectDiv.className = 'col-span-7 md:col-span-9 min-w-0';
       
       const selectContainer = document.createElement('div');
-      selectContainer.className = 'relative min-w-0';
+      selectContainer.className = 'relative min-w-0 overflow-visible';
       selectContainer.dataset.id = entry.id;
       
       const selectTrigger = document.createElement('div');
@@ -381,8 +392,27 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Create the dropdown (hidden by default)
       const dropdown = document.createElement('div');
-      dropdown.className = 'absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg hidden';
+      dropdown.className = 'fixed z-20 bg-white border rounded-md shadow-lg hidden';
       dropdown.dataset.dropdown = entry.id;
+      dropdown.style.width = 'calc(100% - 16px)'; // Match parent width minus padding
+      dropdown.style.maxHeight = '300px';
+      dropdown.style.overflowY = 'auto';
+      
+      // Function to position the dropdown appropriately
+      const positionDropdown = () => {
+        const trigger = selectContainer.querySelector('div:first-child');
+        const rect = trigger.getBoundingClientRect();
+        dropdown.style.top = `${rect.bottom + window.scrollY}px`;
+        dropdown.style.left = `${rect.left}px`;
+      };
+      
+      // Add positioning logic to this dropdown
+      dropdown.dataset.entryId = entry.id;
+      document.addEventListener('dropdown-toggled', function(e) {
+        if (e.detail.id === entry.id) {
+          positionDropdown();
+        }
+      });
       
       projects.forEach(project => {
         const option = document.createElement('div');
@@ -501,6 +531,13 @@ document.addEventListener('DOMContentLoaded', function() {
       if (dropdown.dataset.dropdown == id) {
         dropdown.classList.toggle('hidden');
         isAnyDropdownOpen = !dropdown.classList.contains('hidden');
+        
+        // Dispatch an event to position the dropdown
+        if (!dropdown.classList.contains('hidden')) {
+          document.dispatchEvent(new CustomEvent('dropdown-toggled', { 
+            detail: { id: id }
+          }));
+        }
       } else {
         dropdown.classList.add('hidden');
       }
