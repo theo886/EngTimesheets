@@ -392,9 +392,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Create the dropdown (hidden by default)
       const dropdown = document.createElement('div');
-      dropdown.className = 'fixed z-20 bg-white border rounded-md shadow-lg hidden';
+      dropdown.className = 'fixed z-20 bg-white border border-gray-300 rounded-md shadow-lg hidden';
       dropdown.dataset.dropdown = entry.id;
-      dropdown.style.width = 'calc(100% - 16px)'; // Match parent width minus padding
       dropdown.style.maxHeight = '300px';
       dropdown.style.overflowY = 'auto';
       
@@ -404,6 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const rect = trigger.getBoundingClientRect();
         dropdown.style.top = `${rect.bottom + window.scrollY}px`;
         dropdown.style.left = `${rect.left}px`;
+        dropdown.style.width = `${rect.width}px`; // Set width exactly the same as the trigger
       };
       
       // Add positioning logic to this dropdown
@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       projects.forEach(project => {
         const option = document.createElement('div');
-        option.className = 'px-3 py-2 hover:bg-slate-100 cursor-pointer';
+        option.className = 'px-3 py-2 hover:bg-slate-100 cursor-pointer overflow-hidden text-ellipsis';
         option.textContent = `${project.name} (${project.code})`;
         option.addEventListener('click', function(event) {
           updateEntry(entry.id, 'projectId', project.id.toString());
