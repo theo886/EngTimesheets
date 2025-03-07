@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
           display: block;
         }
       </style>
-      <div class="max-w-2xl mx-auto p-4">
+      <div class="max-w-[650px] mx-auto p-4">
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
           <div class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
             <div class="flex justify-between items-center">
@@ -241,32 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
               <div class="flex-1 flex justify-end items-center font-medium mt-4 sm:mt-0 min-w-[100px]">
                 <span class="mr-2">Total:</span>
                 <span id="total-percentage" class=""></span>
-              </div>
-            </div>
-            
-            <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-              <div class="w-full flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
-                <div class="flex items-center">
-                  <span class="text-sm font-medium text-gray-700 mr-3">Date Range:</span>
-                </div>
-                <div class="flex flex-wrap gap-2 items-center">
-                  <select id="date-range-preset" class="border rounded px-3 py-2 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300" aria-label="Select date range">
-                    <option value="1month">Last Month</option>
-                    <option value="3months">Last 3 Months</option>
-                    <option value="6months">Last 6 Months</option>
-                    <option value="1year" selected>Last Year</option>
-                    <option value="custom">Custom Range</option>
-                  </select>
-                  
-                  <div id="custom-date-container" class="hidden flex-wrap gap-2 items-center">
-                    <input type="date" id="start-date" class="border rounded px-2 py-1 text-sm" aria-label="Start date">
-                    <span class="text-gray-500">to</span>
-                    <input type="date" id="end-date" class="border rounded px-2 py-1 text-sm" aria-label="End date">
-                    <button id="apply-date-filter" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm whitespace-nowrap">
-                      Apply
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -377,24 +351,24 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       const entryDiv = document.createElement('div');
-      entryDiv.className = 'grid grid-cols-12 gap-3 items-center';
+      entryDiv.className = 'grid grid-cols-12 gap-x-2 sm:gap-x-3 items-center min-w-0 overflow-hidden';
       entryDiv.dataset.id = entry.id;
       
       // Project select column
       const selectDiv = document.createElement('div');
-      selectDiv.className = 'col-span-9';
+      selectDiv.className = 'col-span-7 md:col-span-9 min-w-0';
       
       const selectContainer = document.createElement('div');
-      selectContainer.className = 'relative';
+      selectContainer.className = 'relative min-w-0';
       selectContainer.dataset.id = entry.id;
       
       const selectTrigger = document.createElement('div');
       selectTrigger.className = `flex items-center justify-between px-3 py-2 border rounded-md cursor-pointer ${isDuplicateProject(entry.projectId) ? 'border-red-500' : ''}`;
       selectTrigger.innerHTML = `
-        <span class="text-gray-500">
+        <span class="text-gray-500 truncate mr-2">
           ${entry.projectId ? projects.find(p => p.id.toString() === entry.projectId)?.name || 'Select Project' : 'Select Project'}
         </span>
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0">
           <path d="M4.5 6.5L7.5 9.5L10.5 6.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       `;
@@ -432,10 +406,10 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Percentage input column
       const percentageDiv = document.createElement('div');
-      percentageDiv.className = 'col-span-1';
+      percentageDiv.className = 'col-span-3 sm:col-span-2 md:col-span-1';
       
       const inputContainer = document.createElement('div');
-      inputContainer.className = 'relative w-16';
+      inputContainer.className = 'relative w-16 mx-auto';
       
       const input = document.createElement('input');
       input.type = 'number';
@@ -502,11 +476,11 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Remove button column
       const removeDiv = document.createElement('div');
-      removeDiv.className = 'col-span-2 flex items-center justify-center';
+      removeDiv.className = 'col-span-2 sm:col-span-2 md:col-span-2 flex items-center justify-center';
       
       if (entries.length > 1) {
         const removeButton = document.createElement('button');
-        removeButton.className = 'h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md flex items-center justify-center';
+        removeButton.className = 'h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md flex items-center justify-center flex-shrink-0';
         removeButton.innerHTML = `
           <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         `;
@@ -960,7 +934,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Create the reports HTML
     reportsContainer.innerHTML = `
-      <div class="max-w-5xl mx-auto p-4">
+      <div class="max-w-[650px] mx-auto p-4">
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
           <div class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
             <div class="flex justify-between items-center">
@@ -981,35 +955,9 @@ document.addEventListener('DOMContentLoaded', function() {
               <p class="text-sm mt-1">Submit some timesheets to see real data in these reports. Currently showing projected/sample data.</p>
             </div>
             
-            <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-              <div class="w-full flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
-                <div class="flex items-center">
-                  <span class="text-sm font-medium text-gray-700 mr-3">Date Range:</span>
-                </div>
-                <div class="flex flex-wrap gap-2 items-center">
-                  <select id="date-range-preset" class="border rounded px-3 py-2 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300" aria-label="Select date range">
-                    <option value="1month">Last Month</option>
-                    <option value="3months">Last 3 Months</option>
-                    <option value="6months">Last 6 Months</option>
-                    <option value="1year" selected>Last Year</option>
-                    <option value="custom">Custom Range</option>
-                  </select>
-                  
-                  <div id="custom-date-container" class="hidden flex-wrap gap-2 items-center">
-                    <input type="date" id="start-date" class="border rounded px-2 py-1 text-sm" aria-label="Start date">
-                    <span class="text-gray-500">to</span>
-                    <input type="date" id="end-date" class="border rounded px-2 py-1 text-sm" aria-label="End date">
-                    <button id="apply-date-filter" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm whitespace-nowrap">
-                      Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="bg-white p-4 rounded-lg shadow">
-                <div class="h-80">
+                <div class="h-96">
                   <canvas id="time-series-chart"></canvas>
                 </div>
               </div>
@@ -1031,56 +979,14 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('weekly-tracker').classList.remove('hidden');
     });
     
-    // Add event listener for the date range selector
-    document.getElementById('date-range-preset').addEventListener('change', function() {
-      const customDateContainer = document.getElementById('custom-date-container');
-      
-      if (this.value === 'custom') {
-        customDateContainer.classList.remove('hidden');
-        customDateContainer.classList.add('flex');
-      } else {
-        customDateContainer.classList.add('hidden');
-        customDateContainer.classList.remove('flex');
-        
-        // Apply the preset filter
-        applyDatePreset(this.value);
-      }
-    });
-    
-    // Add event listener for the apply button
-    document.getElementById('apply-date-filter').addEventListener('click', function() {
-      const startDate = document.getElementById('start-date').value;
-      const endDate = document.getElementById('end-date').value;
-      
-      if (startDate && endDate) {
-        applyCustomDateFilter(startDate, endDate);
-      }
-    });
-    
-    // Set default date ranges
-    const today = new Date();
-    const oneYearAgo = new Date(today);
-    oneYearAgo.setFullYear(today.getFullYear() - 1);
-    
-    document.getElementById('start-date').value = formatDateForInput(oneYearAgo);
-    document.getElementById('end-date').value = formatDateForInput(today);
-    
-    // Generate the reports data with default 1 year range
-    generateReports(oneYearAgo, today);
-  }
-  
-  // Helper function to format date for input field
-  function formatDateForInput(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    // Generate the reports data
+    generateReports();
   }
 
   // Function to generate the report charts
-  function generateReports(startDate, endDate) {
+  function generateReports() {
     // Process data for the charts
-    const projectData = processProjectData(startDate, endDate);
+    const projectData = processProjectData();
     
     // Show warning if using sample data
     const noDataMessage = document.getElementById('no-data-message');
@@ -1098,19 +1004,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Process project data for the charts
-  function processProjectData(startDate = null, endDate = null) {
+  function processProjectData() {
     // Gather all submissions
-    let submissionWeeks = Object.keys(previousSubmissions);
+    const submissionWeeks = Object.keys(previousSubmissions);
     console.log("Found submission weeks:", submissionWeeks);
-    
-    // Apply date filtering if provided
-    if (startDate && endDate) {
-      submissionWeeks = submissionWeeks.filter(weekStr => {
-        const weekDate = getWeekStartDate(weekStr);
-        return weekDate >= startDate && weekDate <= endDate;
-      });
-      console.log("Filtered weeks by date range:", submissionWeeks);
-    }
     
     // Time series data structure
     const timeData = {
@@ -1401,7 +1298,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const [_, h, s, l] = match.map(Number);
       
       // Create a gradient from top to bottom
-      const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+      const gradient = ctx.createLinearGradient(0, 0, 0, 500);
       gradient.addColorStop(0, `hsla(${h}, ${s}%, ${l+10}%, 0.85)`); // Lighter at top
       gradient.addColorStop(1, `hsla(${h}, ${s}%, ${l-5}%, 0.7)`);   // Darker at bottom
       return gradient;
@@ -1554,73 +1451,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     });
-  }
-
-  // Function to apply preset date filters
-  function applyDatePreset(preset) {
-    let startDate, endDate;
-    const today = new Date();
-    
-    switch(preset) {
-      case '1month':
-        // Last month
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 1);
-        endDate = today;
-        break;
-      case '3months':
-        // Last 3 months
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 3);
-        endDate = today;
-        break;
-      case '6months':
-        // Last 6 months
-        startDate = new Date(today);
-        startDate.setMonth(today.getMonth() - 6);
-        endDate = today;
-        break;
-      case '1year':
-        // Last year
-        startDate = new Date(today);
-        startDate.setFullYear(today.getFullYear() - 1);
-        endDate = today;
-        break;
-      default:
-        // Reset filters
-        startDate = null;
-        endDate = null;
-    }
-    
-    // Update input fields for UI consistency
-    if (startDate && endDate) {
-      document.getElementById('start-date').value = formatDateForInput(startDate);
-      document.getElementById('end-date').value = formatDateForInput(endDate);
-    }
-    
-    // Filter and regenerate charts
-    filterSubmissionsByDate(startDate, endDate);
-  }
-  
-  // Function to apply custom date filter
-  function applyCustomDateFilter(startDateStr, endDateStr) {
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
-    endDate.setHours(23, 59, 59, 999); // Set to end of day
-    
-    filterSubmissionsByDate(startDate, endDate);
-  }
-  
-  // Function to filter submissions by date
-  function filterSubmissionsByDate(startDate, endDate) {
-    // Clear existing charts
-    const timeSeriesChart = Chart.getChart('time-series-chart');
-    const pieChart = Chart.getChart('pie-chart');
-    
-    if (timeSeriesChart) timeSeriesChart.destroy();
-    if (pieChart) pieChart.destroy();
-    
-    // Regenerate the reports with date filter
-    generateReports(startDate, endDate);
   }
 });
