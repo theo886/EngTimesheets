@@ -5,11 +5,23 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment variables
-.env
+.env*
+!.env.example
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+local.settings.json
+**/local.settings.json
+
+# Build artifacts
+build.zip
+clean-package.zip
+complete-package.zip
+correct-structure.zip
+webapp_logs.zip
+build/
+clean-deploy/
 
 # IDE
 .vscode/
@@ -21,3 +33,6 @@ yarn-error.log*
 .DS_Store
 Thumbs.db 
 *storybook.log
+
+# Project-specific
+screenshots/

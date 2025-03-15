@@ -1,0 +1,15 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "COSMOSDB_ENDPOINT": "https://your-cosmosdb-instance.documents.azure.com:443/",
+    "COSMOSDB_KEY": "your-cosmosdb-key",
+    "COSMOSDB_DATABASE": "YourDatabaseName",
+    "COSMOSDB_CONTAINER": "YourContainerName"
+  },
+  "Host": {
+    "CORS": "*",
+    "LocalHttpPort": 7071
+  }
+}
